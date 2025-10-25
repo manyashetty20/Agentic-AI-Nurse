@@ -1,0 +1,19 @@
+# --- requirements.txt ---
+
+# Backend API
+fastapi
+uvicorn[standard]
+
+# Frontend Interface
+streamlit
+requests
+
+# AI & RAG
+langchain
+langchain-google-genai  # <-- CHANGED from langchain-groq
+langchain-community
+langchain-huggingface
+
+# Vector Store & Embeddings
+faiss-cpu
+sentence-transformers

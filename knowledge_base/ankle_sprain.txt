@@ -1,0 +1,19 @@
+Symptom: Ankle Pain After Trauma (Twist)
+
+A sudden twist or roll of the ankle is a traumatic injury.
+The primary differential diagnoses (DDx) MUST be musculoskeletal.
+
+1. Ankle Sprain (Most Common):
+   - Definition: Stretching or tearing of the ligaments.
+   - Symptoms: Pain, swelling, bruising, tenderness, inability to put weight on it.
+   - Red Flag: If the patient cannot walk 4 steps, it may be a fracture (Ottawa Ankle Rules).
+
+2. Ankle Fracture:
+   - Definition: A break in one of the ankle bones (fibula, tibia, talus).
+   - Symptoms: Severe pain, immediate and significant swelling, bruising, deformity, inability to bear weight.
+
+3. Ankle Strain:
+   - Definition: Stretching or tearing of a muscle or tendon.
+   - Symptoms: Pain, muscle spasm, weakness, swelling.
+
+CRITICAL: Do NOT diagnose infectious or metabolic diseases like Cellulitis, Osteomyelitis, or Gout for a simple traumatic twist unless specific, unrelated symptoms (like a high fever, a large open wound, or a prior history of Gout) are present.

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Nurse Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-window">
+            <div id="chat-messages">
+                <div class="message assistant">
+                    Hi, I'm your AI Nurse assistant. I'm here to gather some information about your symptoms.
+                    <br><br>
+                    To start, please type "Hi" or "Hello".
+                </div>
+            </div>
+        </div>
+        
+        <button id="mic-button">Tap to Speak</button>
+
+        <div id="input-area">
+            <input type="text" id="message-input" placeholder="Type or speak...">
+            <button id="send-button">Send</button>
+        </div>
+        <button id="report-button">I'm done, generate report</button>
+        <button id="pdf-button" style="display:none;">Download Report as PDF</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

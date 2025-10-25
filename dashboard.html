@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI Clinical Dashboard</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold text-gray-900 mb-2">Agentic AI Clinical Prototype</h1>
+            <p class="text-xl text-gray-600">Unified interface for the AI Nurse and Reasoning Agents.</p>
+        </header>
+
+        <!-- FIX: Increased max-width from max-w-4xl to max-w-6xl and changed grid to 3 columns -->
+        <main class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Card 1: AI Nurse Chat Interface (The UI we built) -->
+            <a href="index.html" target="_blank" class="block card bg-white p-6 rounded-xl shadow-lg border-b-4 border-green-500 hover:border-green-600">
+                <div class="text-5xl mb-4 text-green-600">🩺</div>
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">AI Nurse Chat (Frontend)</h2>
+                <p class="text-gray-500 mb-4">Launch the interactive chat interface for symptom gathering (Voice/Text Input).</p>
+                <span class="text-green-500 font-medium">Click to Launch →</span>
+            </a>
+
+            <!-- Card 2: Real Time Stat Monitoring -->
+            <a href="./hackoween/app.html" target="_blank" class="block card bg-white p-6 rounded-xl shadow-lg border-b-4 border-blue-500 hover:border-blue-600">
+                <div class="text-5xl mb-4 text-blue-600">📊</div>
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">Real Time Stat Monitoring</h2>
+                <p class="text-gray-500 mb-4">View real-time metrics, system performance, and historical case data (Placeholder).</p>
+                <span class="text-blue-500 font-medium">Link to Dashboard →</span>
+            </a>
+
+            <!-- Card 3: Backend & Documentation -->
+            <a href="http://127.0.0.1:8000/docs" target="_blank" class="block card bg-white p-6 rounded-xl shadow-lg border-b-4 border-yellow-500 hover:border-yellow-600">
+                <div class="text-5xl mb-4 text-yellow-600">💻</div>
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">API Documentation</h2>
+                <p class="text-gray-500 mb-4">Access the FastAPI Swagger UI and check the RAG/Reasoning logs (Backend).</p>
+                <span class="text-yellow-500 font-medium">Link to FastAPI →</span>
+            </a>
+            
+            <!-- Card 4: Hackoween Code (Moved to its own row or removed, aligning with the 3-column fix) -->
+            <!-- Note: Since we only have 3 cards in the selection, I've adjusted the grid to 3 columns to center them perfectly. If you want the fourth card back, let me know, and I can set it to max-w-7xl and grid-cols-4. -->
+
+
+        </main>
+
+        <!-- FIX: Increased max-width of the Overview section -->
+        <section class="max-w-6xl mx-auto mt-16 p-6 bg-white rounded-xl shadow-lg">
+            <h3 class="text-3xl font-semibold mb-4 text-gray-800">Project Components Overview</h3>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="font-bold w-32 flex-shrink-0 text-green-600">Frontend (UI):</span>
+                    <span class="flex-grow">HTML/CSS/JS (`index.html`). Provides the instant, hard-coded interview logic, Voice/Text input, and final report display.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="font-bold w-32 flex-shrink-0 text-yellow-600">Backend (API):</span>
+                    <span class="flex-grow">Python FastAPI (`main.py`). Manages communication, holds the hard-coded interview script, and orchestrates the AI calls.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="font-bold w-32 flex-shrink-0 text-red-600">AI Core (RAG):</span>
+                    <span class="flex-grow">LangChain/BioMistral. Uses the `knowledge_base` (RAG) to generate clinically accurate Differential Diagnoses (DDx) and Red Flags.</span>
+                </li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI Nurse Personal Monitor</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tone.js for sound generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Deep Slate Gray Background */
+            color: #f3f4f6; /* Light text */
+        }
+        /* Custom Scrollbar for Dark Theme */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        
+        /* Pulse Animation for Critical Alert */
+        @keyframes pulse-red {
+            0%, 100% { background-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.7); }
+            50% { background-color: #dc2626; box-shadow: 0 0 25px rgba(220, 38, 38, 1); }
+        }
+        .alert-critical {
+            animation: pulse-red 1.2s infinite;
+        }
+        .card {
+            background-color: #1f2937; /* Darker card background */
+            border: 1px solid #374151;
+        }
+        /* Text color classes for tiered logging */
+        .text-stable { color: #4ade80; } /* Green */
+        .text-warning { color: #facc15; } /* Yellow */
+        .text-danger { color: #f97316; } /* Orange */
+        .text-critical { color: #ef4444; } /* Red */
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Header -->
+        <header class="text-center">
+            <h1 class="text-4xl font-extrabold text-white tracking-wider">AGENTIC VITAL SIGN MONITOR</h1>
+            <p class="text-lg text-gray-400 mt-1">Personalized Continuous Care for <span id="patient-name" class="font-semibold text-indigo-400">P001 (Arun Sharma)</span></p>
+        </header>
+
+        <!-- Real-Time Alert Panel -->
+        <div id="alert-panel" class="card p-6 rounded-2xl shadow-xl bg-gray-700 text-white transition-all duration-500">
+            <div class="flex items-center space-x-4">
+                <!-- Icon -->
+                <svg id="alert-icon" class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                
+                <div class="flex-grow">
+                    <h2 class="text-3xl font-bold tracking-tight" id="alert-status">Monitoring Initializing</h2>
+                    <p class="text-base mt-1 text-gray-300" id="alert-justification">Awaiting first data stream to establish baseline comparison...</p>
+                </div>
+                <div class="text-right text-sm text-gray-300">
+                    Last Update: <span id="last-update-time">--:--:--</span>
+                </div>
+            </div>
+            
+            <!-- Vitals Data Display -->
+            <div class="mt-5 grid grid-cols-3 gap-4 border-t border-gray-600 pt-4">
+                <div class="text-center">
+                    <p class="text-xl font-bold" id="hr-display">--</p>
+                    <p class="text-xs text-gray-400">Heart Rate (bpm)</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl font-bold" id="bp-sys-display">-- / --</p>
+                    <p class="text-xs text-gray-400">Blood Pressure (mmHg)</p>
+                </div>
+                   <div class="text-center">
+                    <p class="text-xl font-bold" id="total-readings-display">0</p>
+                    <p class="text-xs text-gray-400">Total Readings Logged</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Vitals Log -->
+        <div class="card p-6 rounded-2xl shadow-xl">
+            <h3 class="text-xl font-semibold text-gray-300 mb-4">Historical Readings Log (Last 10)</h3>
+            <div class="max-h-64 overflow-y-auto custom-scrollbar rounded-lg border border-gray-700">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-800 sticky top-0">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Time</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">HR (bpm)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">BP (mmHg)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Agent Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800" id="vitals-history">
+                        <!-- Log entries will be inserted here -->
+                    </tbody>
+                </table>
+                <p id="loading-text" class="text-center text-gray-500 p-4">Waiting for 'demo.py' to send data...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration variables (Targeting P001, API URL, etc.)
+        const API_BASE_URL = 'http://127.0.0.1:8001/api/vitals';
+        const TARGET_PATIENT_ID = 'P001';
+        
+        // UI Elements
+        const alertPanel = document.getElementById('alert-panel');
+        const alertStatus = document.getElementById('alert-status');
+        const alertJustification = document.getElementById('alert-justification');
+        const vitalsHistory = document.getElementById('vitals-history');
+        const lastUpdateTime = document.getElementById('last-update-time');
+        const loadingText = document.getElementById('loading-text');
+        const hrDisplay = document.getElementById('hr-display');
+        const bpSysDisplay = document.getElementById('bp-sys-display');
+        const totalReadingsDisplay = document.getElementById('total-readings-display');
+        
+        // --- NEW: Tone.js Sound Setup ---
+        // Create a simple synth for the critical alarm sound
+        const synth = new Tone.MembraneSynth().toDestination();
+        const alarmFrequency = 440; // A standard pitch
+        const alarmDuration = '8n'; // Eighth note duration
+        let soundPlaying = false;
+
+        // Function to start the repeating alarm
+        function startAlarm() {
+            if (soundPlaying) return;
+            // Must click once to initialize audio context
+            if (Tone.context.state !== 'running') {
+                Tone.start();
+            }
+            // Use a loop function in Tone.js for reliable, repeating sound
+            Tone.Transport.scheduleRepeat((time) => {
+                synth.triggerAttackRelease(alarmFrequency, alarmDuration, time);
+            }, '0.5'); // Repeat every half second
+            Tone.Transport.start();
+            soundPlaying = true;
+        }
+
+        // Function to stop the alarm
+        function stopAlarm() {
+            if (!soundPlaying) return;
+            Tone.Transport.stop();
+            Tone.Transport.cancel();
+            soundPlaying = false;
+        }
+        // --- END NEW ---
+
+        // CRITICAL FIX 1: GLOBAL STATE TRACKERS
+        let last_timestamp = ''; 
+
+        // Mapping classes (unchanged but necessary for context)
+        const FLAG_CLASSES = {
+            'GREEN_STABLE': 'bg-green-700 hover:bg-green-600',
+            'YELLOW_WARNING': 'bg-yellow-600 hover:bg-yellow-500',
+            'ORANGE_DANGER': 'bg-orange-600 hover:bg-orange-500',
+            'RED_CRITICAL': 'bg-red-700 alert-critical',
+            'ERROR': 'bg-gray-600'
+        };
+        const HISTORY_TEXT_COLORS = {
+            'GREEN_STABLE': 'text-stable',
+            'YELLOW_WARNING': 'text-warning',
+            'ORANGE_DANGER': 'text-danger',
+            'RED_CRITICAL': 'text-critical',
+        };
+        const LOG_BG_COLORS = {
+            'GREEN_STABLE': 'bg-green-900 text-green-300',
+            'YELLOW_WARNING': 'bg-yellow-900 text-yellow-300',
+            'ORANGE_DANGER': 'bg-orange-900 text-orange-300',
+            'RED_CRITICAL': 'bg-red-900 text-red-300'
+        };
+
+        // Custom Thresholds (Must match main.py for coloring history)
+        const HR_MAX = 110;
+        const BP_SYS_MAX = 150;
+        const HR_CRIT = HR_MAX + 10; // 120
+        const BP_SYS_CRIT = BP_SYS_MAX + 15; // 165
+        const HR_DANGER = HR_MAX + 2; // 112
+        const BP_SYS_DANGER = BP_SYS_MAX + 5; // 155
+
+        // Function to determine flag color (Logic mirroring Python backend)
+        function getTriageFlag(hr, bp_sys) {
+            if (hr > HR_CRIT || bp_sys > BP_SYS_CRIT) return 'RED_CRITICAL';
+            if (hr > HR_DANGER || bp_sys > BP_SYS_DANGER) return 'ORANGE_DANGER';
+            if (hr > HR_MAX || bp_sys > BP_SYS_MAX) return 'YELLOW_WARNING';
+            return 'GREEN_STABLE';
+        }
+
+        // --- 1. Fetch Latest Alert Status & History ---
+        async function fetchLatestAlert() {
+            try {
+                // Fetch historical data log
+                const historyResponse = await fetch(`${API_BASE_URL}/history/${TARGET_PATIENT_ID}`);
+                if (!historyResponse.ok) throw new Error('History fetch failed.');
+                
+                const historyData = await historyResponse.json();
+                const totalReadings = historyData.total_readings;
+                
+                if (totalReadings === 0) {
+                    alertStatus.textContent = "Monitoring Initializing";
+                    alertJustification.textContent = "Waiting for 'demo.py' data stream...";
+                    alertPanel.className = `p-6 rounded-2xl shadow-xl bg-gray-700 text-white transition-all duration-500`;
+                    loadingText.style.display = 'block';
+                    stopAlarm(); // Stop sound if no data
+                    return;
+                }
+                
+                const latestReading = historyData.readings[totalReadings - 1];
+                
+                // Polling Abort Logic (Ensure we don't update if nothing new)
+                if (latestReading.timestamp === last_timestamp) {
+                    return;
+                }
+                last_timestamp = latestReading.timestamp;
+
+                // --- Determine Triage Flag and Justification for Display ---
+                const flag = getTriageFlag(latestReading.hr, latestReading.bp_sys);
+                let justification = "Vitals are within acceptable patient-specific range. Monitoring continues.";
+                if (flag !== 'GREEN_STABLE') {
+                    justification = `AGENT ALERT: ${flag.replace('_', ' ')} detected. HR: ${latestReading.hr} | BP: ${latestReading.bp_sys}/${latestReading.bp_dia}. Check patient's custom baseline immediately.`;
+                }
+                
+                const alertData = { flag_color: flag, vitals_received: latestReading, justification: justification };
+
+                // Update UI elements
+                totalReadingsDisplay.textContent = totalReadings;
+                updateAlertDisplay(alertData, latestReading.timestamp);
+                updateHistoryTable(historyData.readings);
+
+            } catch (error) {
+                console.error("Connection failure:", error);
+                alertStatus.textContent = "DISCONNECTED";
+                alertJustification.textContent = "Lost connection to FastAPI server. Check terminal 1.";
+                alertPanel.className = `p-6 rounded-2xl shadow-xl ${FLAG_CLASSES['ERROR']} transition-all duration-500`;
+                loadingText.style.display = 'block';
+                stopAlarm(); // Stop sound if disconnected
+            }
+        }
+
+        // --- 2. Update Alert Panel ---
+        function updateAlertDisplay(data, timestamp) {
+            const flag = data.flag_color;
+            const statusText = flag.replace('_', ' ').split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
+
+            // Apply card styling for color and animation
+            alertPanel.className = `card p-6 rounded-2xl shadow-xl text-white transition-all duration-500 ${FLAG_CLASSES[flag]}`;
+            
+            // --- NEW: Sound Logic ---
+            if (flag === 'RED_CRITICAL' || flag === 'ORANGE_DANGER') {
+                startAlarm();
+            } else {
+                stopAlarm();
+            }
+            // --- END NEW ---
+
+            // Update Vitals Display
+            hrDisplay.textContent = `${data.vitals_received.hr}`;
+            bpSysDisplay.textContent = `${data.vitals_received.bp_sys} / ${data.vitals_received.bp_dia}`;
+            
+            // Time Update
+            lastUpdateTime.textContent = timestamp.split(' ')[1];
+            
+            // Update Alert Text
+            alertStatus.textContent = statusText;
+            alertJustification.textContent = data.justification;
+
+            // Flash the page title for critical alerts
+            document.title = (flag === 'RED_CRITICAL' ? '!!! CRITICAL ALERT !!!' : 'Agentic AI Nurse Personal Monitor');
+        }
+
+        // --- 3. Update History Table (Unchanged) ---
+        function updateHistoryTable(readings) {
+            loadingText.style.display = 'none';
+            const recentReadings = readings.slice(-10);
+            vitalsHistory.innerHTML = ''; 
+
+            recentReadings.forEach(reading => {
+                const hr = reading.hr;
+                const bp_sys = reading.bp_sys;
+
+                const log_flag = getTriageFlag(hr, bp_sys);
+                
+                // Determine HR color class
+                const hr_color_class = (hr > HR_CRIT) ? HISTORY_TEXT_COLORS['RED_CRITICAL'] : 
+                                      (hr > HR_DANGER) ? HISTORY_TEXT_COLORS['ORANGE_DANGER'] :
+                                      (hr > HR_MAX) ? HISTORY_TEXT_COLORS['YELLOW_WARNING'] : HISTORY_TEXT_COLORS['GREEN_STABLE'];
+                
+                // Determine BP color class 
+                const bp_color_class = (bp_sys > BP_SYS_CRIT) ? HISTORY_TEXT_COLORS['RED_CRITICAL'] : 
+                                       (bp_sys > BP_SYS_DANGER) ? HISTORY_TEXT_COLORS['ORANGE_DANGER'] :
+                                       (bp_sys > BP_SYS_MAX) ? HISTORY_TEXT_COLORS['YELLOW_WARNING'] : HISTORY_TEXT_COLORS['GREEN_STABLE'];
+
+                const statusText = log_flag.split('_')[0];
+
+                const row = vitalsHistory.insertRow(-1); 
+
+                row.innerHTML = `
+                    <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-300">${reading.timestamp.split(' ')[1]}</td>
+                    <td class="px-6 py-2 whitespace-nowrap text-sm font-bold ${hr_color_class}">${reading.hr}</td>
+                    <td class="px-6 py-2 whitespace-nowrap text-sm font-bold ${bp_color_class}">${reading.bp_sys}/${reading.bp_dia}</td>
+                    <td class="px-6 py-2 whitespace-nowrap text-xs">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                            ${LOG_BG_COLORS[log_flag]}">
+                            ${statusText}
+                        </span>
+                    </td>
+                `;
+            });
+            // Scroll log to bottom
+            vitalsHistory.parentNode.scrollTop = vitalsHistory.parentNode.scrollHeight;
+        }
+
+        // Start fetching data every 3 seconds
+        setInterval(fetchLatestAlert, 3000); 
+
+        // Initial fetch on load
+        fetchLatestAlert();
+</script>
+</body>
+</html>

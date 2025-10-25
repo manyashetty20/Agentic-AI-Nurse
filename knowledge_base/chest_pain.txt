@@ -1,0 +1,17 @@
+Symptom: Non-Traumatic Chest Pain
+
+Chest pain is a high-risk chief complaint.
+
+1. Myocardial Infarction (Heart Attack) - HIGH RISK:
+   - Definition: Blockage of blood flow to the heart.
+   - Symptoms: Crushing pressure, pain in the center or left of the chest, pain radiating to the jaw, left arm, or back.
+   - Associated Symptoms: Shortness of breath, nausea, sweating, lightheadedness.
+
+2. Aortic Dissection - HIGH RISK:
+   - Definition: A tear in the inner layer of the aorta.
+   - Symptoms: Sudden, severe, "tearing" or "ripping" chest pain that may radiate to the back.
+
+3. Pulmonary Embolism (PE) - HIGH RISK:
+   - Definition: A blood clot in the lungs.
+   - Symptoms: Sudden sharp chest pain, shortness of breath, cough.
+   - Risk Factors: Recent surgery, long travel, history of clots.

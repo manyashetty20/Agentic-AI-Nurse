@@ -1,0 +1,12 @@
+[
+    {
+        "patient_id": "P001",
+        "name": "Arun Sharma",
+        "chronic_conditions": "Post-Myocardial Infarction (Heart Attack)",
+        "chief_complaint": "Severe chest pain and dizziness.",
+        "custom_vitals_baseline": {
+            "HR_MAX": 110,
+            "BP_SYS_MAX": 150
+        }
+    }
+]
