@@ -24,7 +24,7 @@
 <body>
     <div class="min-h-screen p-8">
         <header class="text-center mb-12">
-            <h1 class="text-5xl font-extrabold text-gray-900 mb-2">Agentic AI Clinical Prototype</h1>
+            <h1 class="text-5xl font-extrabold text-gray-900 mb-2">Agentic AI Clinical</h1>
             <p class="text-xl text-gray-600">Unified interface for the AI Nurse and Reasoning Agents.</p>
         </header>
 
@@ -48,9 +48,9 @@
             </a>
 
             <!-- Card 3: Backend & Documentation -->
-            <a href="http://127.0.0.1:8000/docs" target="_blank" class="block card bg-white p-6 rounded-xl shadow-lg border-b-4 border-yellow-500 hover:border-yellow-600">
+            <a href="http://localhost:8501" target="_blank" class="block card bg-white p-6 rounded-xl shadow-lg border-b-4 border-yellow-500 hover:border-yellow-600">
                 <div class="text-5xl mb-4 text-yellow-600">💻</div>
-                <h2 class="text-2xl font-semibold mb-2 text-gray-800">API Documentation</h2>
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">Admin</h2>
                 <p class="text-gray-500 mb-4">Access the FastAPI Swagger UI and check the RAG/Reasoning logs (Backend).</p>
                 <span class="text-yellow-500 font-medium">Link to FastAPI →</span>
             </a>
@@ -60,25 +60,63 @@
 
 
         </main>
-
-        <!-- FIX: Increased max-width of the Overview section -->
+        <!-- --- NEW: EMERGENCY DISPATCH BUTTON --- -->
+        <div class="max-w-6xl mx-auto mt-12 mb-16 text-center">
+            <!-- UPDATED onclick to open the new external HTML file -->
+            <button id="emergency-button" onclick="window.open('dispatch_form.html', '_blank', 'width=600,height=800,status=yes,resizable=yes')" class="px-8 py-4 bg-red-600 text-white font-extrabold text-2xl rounded-xl shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-105">
+                🚨 EMERGENCY DISPATCH 🚨
+            </button>
+        </div>
+        <!-- FIX: Increased max-width of the Overview section and updated content -->
+        <!-- FIX: Increased max-width of the Overview section and updated content -->
         <section class="max-w-6xl mx-auto mt-16 p-6 bg-white rounded-xl shadow-lg">
             <h3 class="text-3xl font-semibold mb-4 text-gray-800">Project Components Overview</h3>
             <ul class="space-y-3 text-gray-700">
+                <!-- ----------------------------------------------------------- -->
+                <!-- SECTION 1: FRONTEND (UI) - CONSOLIDATED -->
+                <!-- ----------------------------------------------------------- -->
                 <li class="flex items-start">
-                    <span class="font-bold w-32 flex-shrink-0 text-green-600">Frontend (UI):</span>
+                    <span class="font-bold w-48 flex-shrink-0 text-green-600">Frontend (UI - Chat):</span>
                     <span class="flex-grow">HTML/CSS/JS (`index.html`). Provides the instant, hard-coded interview logic, Voice/Text input, and final report display.</span>
                 </li>
                 <li class="flex items-start">
-                    <span class="font-bold w-32 flex-shrink-0 text-yellow-600">Backend (API):</span>
-                    <span class="flex-grow">Python FastAPI (`main.py`). Manages communication, holds the hard-coded interview script, and orchestrates the AI calls.</span>
+                    <span class="font-bold w-48 flex-shrink-0 text-green-600">Frontend (UI - Monitor):</span>
+                    <span class="flex-grow"><strong>Web Framework:</strong> Streamlit (`app.py`). Used to build the entire interactive user interface, data display, and styling.</span>
                 </li>
                 <li class="flex items-start">
-                    <span class="font-bold w-32 flex-shrink-0 text-red-600">AI Core (RAG):</span>
-                    <span class="flex-grow">LangChain/BioMistral. Uses the `knowledge_base` (RAG) to generate clinically accurate Differential Diagnoses (DDx) and Red Flags.</span>
+                    <span class="font-bold w-48 flex-shrink-0 text-green-600">Frontend Tools:</span>
+                    <span class="flex-grow"><strong>API Communication:</strong> Requests (Used in your `make_request` function to call the FastAPI backend). <strong>Data Manipulation:</strong> Pandas (Used to format data for display).</span>
+                </li>
+                <!-- ----------------------------------------------------------- -->
+                <!-- SECTION 2: BACKEND (API) - CONSOLIDATED -->
+                <!-- ----------------------------------------------------------- -->
+                <li class="flex items-start">
+                    <span class="font-bold w-48 flex-shrink-0 text-yellow-600">Backend (Main API):</span>
+                    <span class="flex-grow"><strong>Web Framework:</strong> FastAPI (`main.py`). Used to build all API endpoints, including `/inventory/`, `/roster/generate`, and `/protocols/ask/`. <strong>ASGI Server:</strong> Uvicorn.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="font-bold w-48 flex-shrink-0 text-yellow-600">Backend Core Tools:</span>
+                    <span class="flex-grow"><strong>Data Validation:</strong> Pydantic. <strong>Database:</strong> File-Based JSON (Used to manage `inventory.json`, `roster.json`, etc.). <strong>Scheduling Logic:</strong> Python `random` & `datetime` libraries.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="font-bold w-48 flex-shrink-0 text-yellow-600">API/Comm:</span>
+                    <span class="flex-grow"><strong>API Communication:</strong> CORS (`Cross-Origin Resource Sharing`) middleware is crucial for frontend/backend communication. <strong>Environment Variables:</strong> python-dotenv.</span>
+                </li>
+                <!-- ----------------------------------------------------------- -->
+                <!-- SECTION 3: AI SERVICE COMPONENTS - CONSOLIDATED -->
+                <!-- ----------------------------------------------------------- -->
+                <li class="flex items-start">
+                    <span class="font-bold w-48 flex-shrink-0 text-red-600">AI Service (LLM):</span>
+                    <span class="flex-grow"><strong>Model:</strong> Llama 3.3 70B (via Groq API). <strong>Tooling:</strong> Groq API (Used via the `groq` library).</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="font-bold w-48 flex-shrink-0 text-red-600">AI Technique:</span>
+                    <span class="flex-grow"><strong>RAG</strong> (Retrieval-Augmented Generation). Used to augment the AI's prompt with specialized protocol information extracted via **PyPDF2** from protocol files.</span>
                 </li>
             </ul>
         </section>
+
     </div>
+    
 </body>
 </html>

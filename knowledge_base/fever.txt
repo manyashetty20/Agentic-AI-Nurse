@@ -1,0 +1,23 @@
+Symptom: Fever
+
+Fever is a non-specific symptom, but its associated symptoms help localize the infection.
+
+Viral Infection (e.g., Common Cold/Flu):
+
+Fever Pattern: Low-grade to moderate (99°F - 102°F).
+
+Associated Symptoms: Congestion, sore throat, generalized body aches, headache, fatigue.
+
+Bacterial Infection (e.g., Sinusitis, Strep Throat):
+
+Fever Pattern: Often higher (102°F+), or persistent.
+
+Associated Symptoms: Localized pain (throat, ear, sinus pressure), colored mucus.
+
+Sepsis (HIGH RISK):
+
+Fever Pattern: Can be high or low (hypothermia).
+
+Associated Symptoms: Confusion, rapid heart rate, low blood pressure, pale/clammy skin, shivering.
+
+Red Flag: Shaking chills, confusion, or inability to stay awake.

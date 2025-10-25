@@ -323,7 +323,7 @@ def determine_next_question(history: List[ChatMessage]) -> str:
         return "Thank you. I have all the information I need."
         
     # Fallback
-    return "Thank you. Can you please tell me more? (I seem to be stuck, please type 'I'm done' to generate a report.)"
+    return "Thank you. Please press I'm done to generate a report."
 
 # --- 6. Create the FastAPI Server ---
 
@@ -389,10 +389,7 @@ async def generate_report(request: ChatRequest):
                 else:
                     report_str += "  - *Supporting Symptoms:* None specified.\n"
                 
-                if ddx['justification_absent']:
-                    report_str += "  - *Missing Symptoms:* " + ", ".join(ddx['justification_absent']) + "\n"
-                else:
-                    report_str += "  - *Missing Symptoms:* None specified.\n"
+                
         else:
              report_str += "- No specific diagnoses could be determined.\n"
             

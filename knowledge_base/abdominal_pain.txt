@@ -1,0 +1,39 @@
+Symptom: Abdominal Pain
+
+Abdominal pain requires careful location and character assessment.
+
+Appendicitis (HIGH RISK):
+
+Location: Starts generalized, migrates to lower right quadrant (LRQ).
+
+Character: Constant, worsening pain.
+
+Associated Symptoms: Nausea, vomiting, low-grade fever.
+
+Red Flag: Pain that is severe and localizing.
+
+Gastritis / Ulcer:
+
+Location: Upper center (epigastric).
+
+Character: Burning, gnawing, often related to food intake (worse or better after eating).
+
+Associated Symptoms: Indigestion, heartburn.
+
+Gastroenteritis (Stomach Flu):
+
+Location: Diffuse, generalized cramping.
+
+Character: Cramping, colicky pain.
+
+Associated Symptoms: Diarrhea, vomiting, often recent exposure to sick individuals.
+
+Kidney Stones:
+
+Location: Flank (side) radiating downwards to the groin.
+
+Character: Excruciating, intermittent waves of pain (colicky).
+
+Associated Symptoms: Blood in urine, nausea, inability to find a comfortable position.
+
+Red Flag: Severe pain with inability to pass urine.

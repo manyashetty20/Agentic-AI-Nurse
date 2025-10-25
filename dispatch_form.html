@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMERGENCY DISPATCH FORM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fef2f2; /* Very light red background */
+            color: #4a5568;
+        }
+        #dispatch-card {
+            max-width: 500px;
+            margin-top: 50px;
+        }
+        .form-input {
+            border: 1px solid #fca5a5;
+            padding: 10px;
+            border-radius: 0.5rem;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .btn-dispatch {
+            background-color: #dc2626;
+            color: white;
+            transition: background-color 0.15s;
+        }
+        .btn-dispatch:hover {
+            background-color: #b91c1c;
+        }
+        .text-confirmation {
+            color: #10b981; /* Tailwind green-500 */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-start min-h-screen">
+
+    <div id="dispatch-card" class="bg-white p-8 rounded-xl shadow-2xl w-full">
+        <h1 class="text-4xl font-extrabold text-red-600 mb-2">EMERGENCY DISPATCH</h1>
+        <p class="text-red-500 mb-6">Confirm and dispatch services to the incident location.</p>
+
+        <form id="dispatch-form" class="space-y-4">
+            <div>
+                <label for="patientName" class="block text-sm font-medium text-gray-700">Patient/Incident Name</label>
+                <!-- Pre-filled placeholder from typical Vitals monitor or chat -->
+                <input type="text" id="patientName" value="P001 (Arun Sharma) / Unspecified" class="mt-1 form-input" required>
+            </div>
+            
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700">Dispatch Address/Location</label>
+                <input type="text" id="location" placeholder="e.g., 123 Main St, Apt 4B" class="mt-1 form-input" required>
+            </div>
+            
+            <div>
+                <label for="priority" class="block text-sm font-medium text-gray-700">Priority Level</label>
+                <select id="priority" class="mt-1 form-input bg-white">
+                    <option value="CRITICAL">CRITICAL (Heart Attack, Stroke)</option>
+                    <option value="URGENT">URGENT (Severe Trauma, OB)</option>
+                    <option value="ROUTINE">ROUTINE (Non-Life-Threatening)</option>
+                </select>
+            </div>
+
+            <div id="dispatch-results" class="pt-4 hidden">
+                <h3 class="text-xl font-bold text-red-600 mb-2">Dispatch Confirmation</h3>
+                <p id="nearest-unit-info" class="text-base text-gray-800"></p>
+                <p id="dispatch-time-info" class="text-sm text-gray-600"></p>
+            </div>
+
+            <button type="submit" id="dispatch-button" class="btn-dispatch w-full py-3 rounded-lg text-lg font-semibold shadow-md">
+                CONFIRM AND DISPATCH AMBULANCE
+            </button>
+        </form>
+        
+        <button onclick="window.close()" class="w-full py-2 mt-4 bg-gray-200 text-gray-700 rounded-lg text-sm hover:bg-gray-300">
+            Cancel and Close
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('dispatch-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 1. Setup Simulation Data
+            const units = [
+                { name: 'EMS Unit 401 (Alpha)', distance: '1.2 mi', eta: '5 min' },
+                { name: 'EMS Unit 305 (Bravo)', distance: '3.5 mi', eta: '10 min' },
+                { name: 'EMS Supervisor 01', distance: '0.8 mi', eta: '4 min' }
+            ];
+            
+            // 2. Select Nearest Unit and Get Form Values
+            const nearestUnit = units[Math.floor(Math.random() * units.length)];
+            const patientName = document.getElementById('patientName').value;
+            const location = document.getElementById('location').value;
+            const priority = document.getElementById('priority').value;
+            
+            // 3. Update results display
+            document.getElementById('nearest-unit-info').innerHTML = `
+                <span class="text-confirmation">DISPATCHED:</span> ${nearestUnit.name} (Closest Unit). <br>
+                To: <strong>${location}</strong>. Priority: <strong>${priority}</strong>.
+            `;
+            document.getElementById('dispatch-time-info').textContent = `ETA: ${nearestUnit.eta} (${nearestUnit.distance} away). Confirmation sent to EMS network.`;
+            
+            // 4. Update UI State
+            document.getElementById('dispatch-results').classList.remove('hidden');
+            const dispatchButton = document.getElementById('dispatch-button');
+            dispatchButton.textContent = 'DISPATCH CONFIRMED';
+            dispatchButton.disabled = true;
+            dispatchButton.classList.remove('btn-dispatch');
+            dispatchButton.classList.add('bg-green-600');
+            dispatchButton.style.animation = 'none';
+
+            // 5. Optional: Audio feedback
+            if (window.speechSynthesis) {
+                const utterance = new SpeechSynthesisUtterance(`Emergency dispatch confirmed. Unit ${nearestUnit.name} is en route.`);
+                window.speechSynthesis.speak(utterance);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+[
+  {
+    "patient_id": "P001",
+    "patient_name": "kalim",
+    "doctor_name": "xyz",
+    "payment_status": "paid",
+    "payment_method": "Cash",
+    "notes": null,
+    "id": 1,
+    "items": [
+      {
+        "item_id": 1,
+        "item_name": "dolo",
+        "manufacturer": "me",
+        "quantity": 1,
+        "unit_price": 5.0,
+        "subtotal": 5.0,
+        "unit": "15 tablets"
+      }
+    ],
+    "total_amount": 5.0,
+    "date": "2025-10-25",
+    "transaction_time": "2025-10-25T23:30:58.173387",
+    "last_updated": "2025-10-25T23:34:28.537769"
+  },
+  {
+    "patient_id": "P002",
+    "patient_name": "riddhi",
+    "doctor_name": "abc",
+    "payment_status": "pending",
+    "payment_method": null,
+    "notes": null,
+    "id": 2,
+    "items": [
+      {
+        "item_id": 9,
+        "item_name": "Alcohol Swabs",
+        "manufacturer": "CleanCare",
+        "quantity": 2,
+        "unit_price": 30.0,
+        "subtotal": 60.0,
+        "unit": "box of 200"
+      }
+    ],
+    "total_amount": 60.0,
+    "date": "2025-10-25",
+    "transaction_time": "2025-10-25T23:31:36.190940"
+  },
+  {
+    "patient_id": "P003",
+    "patient_name": "manya",
+    "doctor_name": "ijk",
+    "payment_status": "pending",
+    "payment_method": null,
+    "notes": null,
+    "id": 3,
+    "items": [
+      {
+        "item_id": 10,
+        "item_name": "Stethoscope",
+        "manufacturer": "AcuSound",
+        "quantity": 2,
+        "unit_price": 1200.0,
+        "subtotal": 2400.0,
+        "unit": "units"
+      }
+    ],
+    "total_amount": 2400.0,
+    "date": "2025-10-25",
+    "transaction_time": "2025-10-25T23:33:18.384556"
+  },
+  {
+    "patient_id": "p004",
+    "patient_name": "RAIN",
+    "doctor_name": "ABCD",
+    "payment_status": "pending",
+    "payment_method": null,
+    "notes": null,
+    "id": 4,
+    "items": [
+      {
+        "item_id": 1,
+        "item_name": "dolo",
+        "manufacturer": "me",
+        "quantity": 1,
+        "unit_price": 5.0,
+        "subtotal": 5.0,
+        "unit": "15 tablets"
+      }
+    ],
+    "total_amount": 5.0,
+    "date": "2025-10-26",
+    "transaction_time": "2025-10-26T02:53:06.621580"
+  }
+]
