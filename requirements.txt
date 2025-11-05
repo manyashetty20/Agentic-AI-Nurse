@@ -1,3 +1,48 @@
+# Consolidated requirements for the repository.
+# Pinned where a version was present in subpackages (see comments below).
+
+# Web / API
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# Data models / validation
+pydantic==2.5.0
+
+# Frontend / UI
+streamlit==1.29.0
+
+# HTTP client
+requests==2.31.0
+
+# Data processing & viz
+pandas==2.1.3
+plotly==5.18.0
+
+# PDF processing (inventory used PyPDF2)
+PyPDF2==3.0.1
+
+# Database / ORM (optional)
+sqlalchemy==2.0.23
+
+# AI / RAG / embeddings
+langchain            # core RAG framework (pin as needed)
+langchain-community  # community integrations
+langchain-huggingface
+chromadb             # ChromaDB vector store
+sentence-transformers
+faiss-cpu            # CPU-based similarity (optional, alternative to chromadb)
+groq==0.4.1
+
+# Utilities
+python-multipart==0.0.6
+python-dotenv==1.0.0
+
+# Notes:
+# - This file merges pins from `inventory/requirements.txt` where explicit versions
+#   were provided. Other AI-related packages (langchain, chromadb, sentence-transformers,
+#   etc.) are listed without fixed versions; pin them if you need reproducible builds.
+# - There are additional module-specific requirement files in `1/requirements.txt`
+#   and `inventory/requirements.txt` which may contain project-specific overrides.
 fastapi
 uvicorn[standard]
 langchain
